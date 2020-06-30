@@ -65,11 +65,19 @@ const generateId = () => {
 app.post('/api/persons', (request, response) => {
     const body = request.body
     
-    if (!body) {
+    if (!body.content) {
         return response.status(400).json({
-            error:"content is empty"
+            error: "content is empty"
         })
-    }
+    } else if (!body.name || !body.number) {
+        return response.status(400).json({
+            error: "name or number is missing"
+        })
+    } else if (persons.map(p => p.name).includes(body.name)) {
+        return response.status(400).json({
+            error: "name must be unique"
+        })
+    } else {
     const person = {
         name: body.name,
         number: body.number,
@@ -78,6 +86,7 @@ app.post('/api/persons', (request, response) => {
 
     persons = persons.concat(person)
     response.json(person) 
+    }
 })
 
 const PORT = 3001
