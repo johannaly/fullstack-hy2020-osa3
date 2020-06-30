@@ -36,5 +36,12 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
+app.get('/info', (request, response) => {
+    const numberOfPersons = persons.length
+    const date = new Date() 
+    response.writeHead(200, {'Content-Type': 'text/plain'})
+    response.end(`Phonebook has info for ${numberOfPersons} people \n${date}`)
+})
+
 const PORT = 3001
 app.listen(PORT)
