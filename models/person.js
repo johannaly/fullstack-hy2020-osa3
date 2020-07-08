@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
+mongoose.set('useFindAndModify', false)
 
 const url = process.env.MONGODB_URI
 
-console.log('connectiong to', url)
+//console.log('connectiong to', url)
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(result => {
         console.log('connected to MongoDB')
@@ -20,7 +21,7 @@ mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
         transform: (document, returnedObject) => {
             returnedObject.id = returnedObject._id.toString()
             delete returnedObject._id
-            delete returnedObject._v
+            delete returnedObject.__v
         }
     })
 
